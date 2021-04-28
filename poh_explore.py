@@ -1,10 +1,12 @@
 from enum import Enum
 from dataclasses import dataclass
 from datetime import datetime
+import jsonpickle  # json encoder doesn't encode dataclasses nicely, jsonpickle does the trick
+from icecream import ic
 
-input("How is your Pursuit of Happiness")
+# input("How is your Pursuit of Happiness")
 # input("Inner Peace, Passion , Compassion")
-input("Inner Peace, Caring, Compassion")
+# input("Inner Peace, Caring, Compassion")
 
 
 class eCategory(Enum):
@@ -20,6 +22,7 @@ class eTarget(Enum):
 
 # XXX: Is Self a Person?
 # Can add remove list of people over time.
+@dataclass
 class Person:
     Name:str
 
@@ -28,7 +31,8 @@ class eTimeframe(Enum):
     PRESENT = "PRESENT"
     FUTURE = "FUTURE"
 
-class TimeFrame:
+@dataclass
+class Timeframe:
     Frame:eTimeframe
     Actual = datetime.now
 
@@ -59,7 +63,9 @@ class Reading:
     # One of the following
     Person: Person  = None
     Process: Process = None
-    TimeFrame =  TimeFrame(Frame=eTimeFrame.PRESENT)
+    Timeframe =  Timeframe(Frame=eTimeframe.PRESENT)
+    ObservedAt = datetime.now()
+    Details = ""
 
 
 @dataclass
@@ -93,6 +99,20 @@ class StateOfMind:
 
 # Others
 
+def toriSpending():
+    r =  Reading()
+    r.Category = eCategory.COMPASSION
+    r.Strength = 4
+    r.Person = "Tori"
+    r.Process = "Spending"
+    return r
+
+
 
 def main():
-    pass
+    jsonpickle.set_encoder_options("json", ensure_ascii=False, )
+    print ("Tori Spending")
+    print(jsonpickle.encode(toriSpending(), indent=4 unpicklable=False))
+    ic(toriSpending())
+
+main()
