@@ -116,9 +116,12 @@ def toriSpending():
 # Use NLP to infer Person, Process, TimeFrame, Category
 
 
+def d(x):
+    return jsonpickle.encode(toriSpending(), indent=4, unpicklable=False)
+
 def main():
     jsonpickle.set_encoder_options("json", ensure_ascii=False, )
-    print ("Tori Spending")
-    ic(jsonpickle.encode(toriSpending(), indent=4, unpicklable=False))
+    ic(d(toriSpending())
+    return
 
 main()
