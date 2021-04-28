@@ -111,11 +111,14 @@ def toriSpending():
     return r
 
 
+# COOL FEATURE
+# Ask or correct as needed with MRU/MFU, etc.
+# Use NLP to infer Person, Process, TimeFrame, Category
+
 
 def main():
     jsonpickle.set_encoder_options("json", ensure_ascii=False, )
     print ("Tori Spending")
-    print(jsonpickle.encode(toriSpending(), indent=4, unpicklable=False))
-    ic(toriSpending())
+    ic(jsonpickle.encode(toriSpending(), indent=4, unpicklable=False))
 
 main()
