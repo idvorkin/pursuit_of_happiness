@@ -14,6 +14,7 @@ class eCategory(Enum):
     COMPASSION = "COMPASSION"
     PASSION = "PASSION"
 
+
 class eTarget(Enum):
     SELF = "SELF"
     OTHER = "OTHER"
@@ -24,25 +25,32 @@ class eTarget(Enum):
 # Can add remove list of people over time.
 @dataclass
 class Person:
-    Name:str
+    Name: str
+
 
 class eTimeframe(Enum):
     PAST = "PAST"
     PRESENT = "PRESENT"
     FUTURE = "FUTURE"
 
+
 @dataclass
 class Timeframe:
-    Frame:eTimeframe
+    Frame: eTimeframe
     Actual = datetime.now
 
 
 Person.Self = Person(Name="SELF")
 
+
 class Process:
-    Name:str
+    Name: str
+
 
 LikertScale = type(int)
+
+# Update pickler for enums to be more pretty for JSON
+# https://stackoverflow.com/questions/49963305/how-to-deal-with-a-single-value-when-implementing-jsonpickle-custom-handlers
 
 
 @dataclass
@@ -53,17 +61,19 @@ class Passion:
 class Compassion:
     Strength: LikertScale = 4
 
+
 class InnerPeace:
     Strength: LikertScale = 4
     Target: eTarget = eTarget.SELF
 
+
 class Reading:
-    Category: eCategory  = eCategory.INNER_PEACE
+    Category: eCategory = eCategory.INNER_PEACE
+    Timeframe = Timeframe(Frame=eTimeframe.PRESENT)
     Strength: LikertScale = 4
     # One of the following
-    Person: Person  = None
+    Person: Person = None
     Process: Process = None
-    Timeframe =  Timeframe(Frame=eTimeframe.PRESENT)
     ObservedAt = datetime.now()
     Details = ""
 
@@ -99,12 +109,14 @@ class StateOfMind:
 
 # Others
 
+
 def toriSpending():
-    r =  Reading()
+    r = Reading()
     r.Category = eCategory.COMPASSION
     r.Strength = 4
     r.Person = "Tori"
     r.Process = "Spending"
+    r.Timeframe = Timeframe(Frame=eTimeframe.PRESENT)
     r.Details = """
     She's mad at me because I'm getting too many low prices things
     """
@@ -116,12 +128,17 @@ def toriSpending():
 # Use NLP to infer Person, Process, TimeFrame, Category
 
 
-def d(x):
-    return jsonpickle.encode(toriSpending(), indent=4, unpicklable=False)
+def pd(o):
+    return print(jsonpickle.encode(o, indent=4, unpicklable=False))
+
 
 def main():
-    jsonpickle.set_encoder_options("json", ensure_ascii=False, )
-    ic(d(toriSpending())
-    return
+    jsonpickle.set_encoder_options(
+        "json",
+        ensure_ascii=False,
+    )
+    ic(toriSpending())
+    pd(toriSpending())
+
 
 main()
