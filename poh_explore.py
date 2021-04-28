@@ -1,30 +1,42 @@
 from enum import Enum
+from dataclasses import dataclass
+from datetime import datetime
 
 input("How is your Pursuit of Happiness")
 # input("Inner Peace, Passion , Compassion")
 input("Inner Peace, Caring, Compassion")
 
-class ePoH(enum):
-    INNER_PEACE,
-    COMPASSION,
-    PASSION
 
-# Alias int to lipert
+class ePoH(Enum):
+    INNER_PEACE = "INNER_PEACE"
+    COMPASSION = "COMPASSION"
+    PASSION = "PASSION"
 
-Lipert = type(int)
 
-@data
-class eLippert(enum):
-    INNER_PEACE,
-    COMPASSION,
-    PASSION
+LikertScale = type(int)
+
 
 @dataclass
 class PoH_root:
     PoH: ePoH
-    Strength: Lippert
+    Strength: LikertScale
 
 
+@dataclass
+class Passion:
+    Strength: LikertScale
+
+
+class Compassion:
+    Strength: LikertScale
+
+
+@dataclass
+class StateOfMind:
+    Time: datetime
+    InnerPeace: PoH_root
+    Passion: PoH_root
+    Compassion: PoH_root
 
 
 # Trending ...
@@ -49,6 +61,7 @@ class PoH_root:
 # Self
 
 # Others
+
 
 def main():
     pass
