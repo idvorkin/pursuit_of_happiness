@@ -105,6 +105,9 @@ def toriSpending():
     r.Strength = 4
     r.Person = "Tori"
     r.Process = "Spending"
+    r.Details = """
+    She's mad at me because I'm getting too many low prices things
+    """
     return r
 
 
@@ -112,7 +115,7 @@ def toriSpending():
 def main():
     jsonpickle.set_encoder_options("json", ensure_ascii=False, )
     print ("Tori Spending")
-    print(jsonpickle.encode(toriSpending(), indent=4 unpicklable=False))
+    print(jsonpickle.encode(toriSpending(), indent=4, unpicklable=False))
     ic(toriSpending())
 
 main()
