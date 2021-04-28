@@ -7,36 +7,67 @@ input("How is your Pursuit of Happiness")
 input("Inner Peace, Caring, Compassion")
 
 
-class ePoH(Enum):
+class eCategory(Enum):
     INNER_PEACE = "INNER_PEACE"
     COMPASSION = "COMPASSION"
     PASSION = "PASSION"
 
+class eTarget(Enum):
+    SELF = "SELF"
+    OTHER = "OTHER"
+    PROCESS = "PROCESS"
+
+
+# XXX: Is Self a Person?
+# Can add remove list of people over time.
+class Person:
+    Name:str
+
+class eTimeframe(Enum):
+    PAST = "PAST"
+    PRESENT = "PRESENT"
+    FUTURE = "FUTURE"
+
+class TimeFrame:
+    Frame:eTimeframe
+    Actual = datetime.now
+
+
+Person.Self = Person(Name="SELF")
+
+class Process:
+    Name:str
 
 LikertScale = type(int)
 
 
 @dataclass
-class PoH_root:
-    PoH: ePoH
-    Strength: LikertScale
-
-
-@dataclass
 class Passion:
-    Strength: LikertScale
+    Strength: LikertScale = 4
 
 
 class Compassion:
-    Strength: LikertScale
+    Strength: LikertScale = 4
+
+class InnerPeace:
+    Strength: LikertScale = 4
+    Target: eTarget = eTarget.SELF
+
+class Reading:
+    Category: eCategory  = eCategory.INNER_PEACE
+    Strength: LikertScale = 4
+    # One of the following
+    Person: Person  = None
+    Process: Process = None
+    TimeFrame =  TimeFrame(Frame=eTimeFrame.PRESENT)
 
 
 @dataclass
 class StateOfMind:
     Time: datetime
-    InnerPeace: PoH_root
-    Passion: PoH_root
-    Compassion: PoH_root
+    InnerPeace: InnerPeace
+    Passion: Passion
+    Compassion: Compassion
 
 
 # Trending ...
