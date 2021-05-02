@@ -21,6 +21,7 @@ class eTarget(Enum):
     PROCESS = "PROCESS"
 
 
+
 # XXX: Is Self a Person?
 # Can add remove list of people over time.
 @dataclass
@@ -51,7 +52,22 @@ LikertScale = type(int)
 
 # Update pickler for enums to be more pretty for JSON
 # https://stackoverflow.com/questions/49963305/how-to-deal-with-a-single-value-when-implementing-jsonpickle-custom-handlers
+# Consider Tab Completion:
+# https://python-prompt-toolkit.readthedocs.io/en/master/pages/asking_for_input.html#autocompletion
 
+
+class JsonEnumHandler(jsonpickle.handlers.BaseHandler):
+    def restore(self, obj):
+        pass
+
+    def flatten(self, obj: Enum, data):
+        return obj.name
+
+    def RegisterEnums(enums):
+        for enum in enums:
+            jsonpickle.handlers.registry.register(enum)
+
+JsonEnumHandler.RegisterEnums([eCategory,eTarget,eTimeframe])
 
 @dataclass
 class Passion:
