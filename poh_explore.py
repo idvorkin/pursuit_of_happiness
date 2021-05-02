@@ -8,18 +8,22 @@ from icecream import ic
 # input("Inner Peace, Passion , Compassion")
 # input("Inner Peace, Caring, Compassion")
 
+# Update pickler for enums to be more pretty for JSON
+# https://stackoverflow.com/questions/49963305/how-to-deal-with-a-single-value-when-implementing-jsonpickle-custom-handlers
+class EnumPrettyPickle(Enum):
+    def __getstate__(self):
+        return self.name
 
-class eCategory(Enum):
+class eCategory(EnumPrettyPickle):
     INNER_PEACE = "INNER_PEACE"
     COMPASSION = "COMPASSION"
     PASSION = "PASSION"
 
 
-class eTarget(Enum):
+class eTarget(EnumPrettyPickle):
     SELF = "SELF"
     OTHER = "OTHER"
     PROCESS = "PROCESS"
-
 
 
 # XXX: Is Self a Person?
@@ -29,10 +33,12 @@ class Person:
     Name: str
 
 
-class eTimeframe(Enum):
+class eTimeframe(EnumPrettyPickle):
     PAST = "PAST"
     PRESENT = "PRESENT"
     FUTURE = "FUTURE"
+    def __getstate__(self):
+        return self.name
 
 
 @dataclass
@@ -50,24 +56,9 @@ class Process:
 
 LikertScale = type(int)
 
-# Update pickler for enums to be more pretty for JSON
-# https://stackoverflow.com/questions/49963305/how-to-deal-with-a-single-value-when-implementing-jsonpickle-custom-handlers
 # Consider Tab Completion:
 # https://python-prompt-toolkit.readthedocs.io/en/master/pages/asking_for_input.html#autocompletion
 
-
-class JsonEnumHandler(jsonpickle.handlers.BaseHandler):
-    def restore(self, obj):
-        pass
-
-    def flatten(self, obj: Enum, data):
-        return obj.name
-
-    def RegisterEnums(enums):
-        for enum in enums:
-            jsonpickle.handlers.registry.register(enum)
-
-JsonEnumHandler.RegisterEnums([eCategory,eTarget,eTimeframe])
 
 @dataclass
 class Passion:
@@ -138,6 +129,17 @@ def toriSpending():
     """
     return r
 
+def messingUpAtWork():
+    r = Reading()
+    r.Category = eCategory.INNER_PEACE
+    r.Strength = 2
+    r.Process = "WRITING"
+    r.Timeframe = Timeframe(Frame=eTimeframe.PAST)
+    r.Details = """
+    Didn't provide enough context in my VP e-mail
+    """
+    return r
+
 
 # COOL FEATURE
 # Ask or correct as needed with MRU/MFU, etc.
@@ -153,8 +155,8 @@ def main():
         "json",
         ensure_ascii=False,
     )
-    ic(toriSpending())
     pd(toriSpending())
+    pd(messingUpAtWork())
 
 
 main()
